@@ -157,7 +157,7 @@ jobs:
           bandit -r organizer.py organizer_gui.py organizador/ -ll
 
       - name: Upload Bandit report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bandit-report
           path: bandit-report.json
@@ -169,7 +169,7 @@ jobs:
           cat safety-report.json | jq '.'
 
       - name: Upload Safety report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: safety-report
           path: safety-report.json
@@ -222,7 +222,7 @@ jobs:
           echo "GUI_SIZE=$([math]::Round($gui, 1))" >> $env:GITHUB_ENV
 
       - name: Upload executables
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows-executables
           path: |
@@ -259,7 +259,7 @@ jobs:
         run: twine check dist/*
 
       - name: Upload package artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-package
           path: dist/*
