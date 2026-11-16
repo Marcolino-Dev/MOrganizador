@@ -336,9 +336,8 @@ Este projeto está licenciado sob a **MIT License** - veja [LICENSE](LICENSE) pa
 
 ## 👨‍💻 Autor
 
-**lairm**
-- GitHub: [@lairm](https://github.com/lairm)
-- Este é meu primeiro projeto público no GitHub! ⭐
+**Marcolino-Dev**
+- GitHub: [@Marcolino-Dev](https://github.com/marcolino-dev)
 
 ---
 
