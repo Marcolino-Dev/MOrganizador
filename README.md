@@ -9,27 +9,26 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/lairm/organizador/releases/latest"><img src="https://img.shields.io/github/v/release/lairm/organizador?style=for-the-badge&logo=github&label=Download" alt="Latest Release"></a>
-  <a href="https://github.com/lairm/organizador/blob/main/LICENSE"><img src="https://img.shields.io/github/license/lairm/organizador?style=for-the-badge" alt="License"></a>
-  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.8%2B-blue?style=for-the-badge&logo=python" alt="Python Version"></a>
-  <a href="https://github.com/lairm/organizador/stargazers"><img src="https://img.shields.io/github/stars/lairm/organizador?style=for-the-badge&logo=github" alt="Stars"></a>
-  <a href="https://github.com/lairm/organizador/issues"><img src="https://img.shields.io/github/issues/lairm/organizador?style=for-the-badge" alt="Issues"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/releases/latest"><img src="https://img.shields.io/github/v/release/Marcolino-Dev/MOrganizador?style=for-the-badge&logo=github&label=Download&color=2ea44f" alt="Latest Release"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Marcolino-Dev/MOrganizador?style=for-the-badge&color=1f6feb" alt="License"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.8%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python Version"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/stargazers"><img src="https://img.shields.io/github/stars/Marcolino-Dev/MOrganizador?style=for-the-badge&logo=github&color=f0883e" alt="Stars"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/issues"><img src="https://img.shields.io/github/issues/Marcolino-Dev/MOrganizador?style=for-the-badge&color=d93f0b" alt="Issues"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/pulls"><img src="https://img.shields.io/github/issues-pr/Marcolino-Dev/MOrganizador?style=for-the-badge&color=8b949e" alt="Pull Requests"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/lairm/organizador/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/lairm/organizador/ci.yml?branch=master&style=for-the-badge&logo=github-actions&logoColor=white&label=CI" alt="CI Status"></a>
-  <a href="https://codecov.io/gh/lairm/organizador"><img src="https://img.shields.io/codecov/c/github/lairm/organizador?style=for-the-badge&logo=codecov&logoColor=white" alt="Codecov"></a>
-  <a href="https://github.com/lairm/organizador/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/lairm/organizador/ci.yml?branch=master&style=for-the-badge&logo=bandit&logoColor=white&label=Security" alt="Security Scan"></a>
-  <a href="https://github.com/lairm/organizador/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/lairm/organizador/ci.yml?branch=master&style=for-the-badge&logo=black&logoColor=white&label=Code%20Style" alt="Code Style"></a>
-  <a href="https://github.com/lairm/organizador/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/lairm/organizador/ci.yml?branch=master&style=for-the-badge&logo=mypy&logoColor=white&label=Types" alt="Type Check"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/releases/latest"><img src="https://img.shields.io/github/downloads/Marcolino-Dev/MOrganizador/total?style=for-the-badge&logo=github&logoColor=white&label=Total%20Downloads&color=6f42c1" alt="Total Downloads"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/commits/master"><img src="https://img.shields.io/github/last-commit/Marcolino-Dev/MOrganizador?style=for-the-badge&logo=git&logoColor=white&color=24292e" alt="Last Commit"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/blob/main/SECURITY.md"><img src="https://img.shields.io/badge/Security-Policy-2c3e50?style=for-the-badge&logo=shield&logoColor=white" alt="Security Policy"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-Welcome-27ae60?style=for-the-badge&logo=github&logoColor=white" alt="PRs Welcome"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/graphs/contributors"><img src="https://img.shields.io/github/contributors/Marcolino-Dev/MOrganizador?style=for-the-badge&color=72777a" alt="Contributors"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/lairm/organizador/releases/latest"><img src="https://img.shields.io/github/downloads/lairm/organizador/total?style=for-the-badge&logo=github&logoColor=white&label=Total%20Downloads" alt="Total Downloads"></a>
-  <a href="https://github.com/lairm/organizador/commits/master"><img src="https://img.shields.io/github/last-commit/lairm/organizador?style=for-the-badge&logo=git&logoColor=white" alt="Last Commit"></a>
-  <a href="https://github.com/lairm/organizador/pulls"><img src="https://img.shields.io/github/issues-pr/lairm/organizador?style=for-the-badge&logo=github&logoColor=white" alt="Open PRs"></a>
-  <a href="https://github.com/lairm/organizador/blob/main/SECURITY.md"><img src="https://img.shields.io/badge/Security-Policy-2c3e50?style=for-the-badge&logo=shield&logoColor=white" alt="Security Policy"></a>
-  <a href="https://github.com/lairm/organizador/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-Welcome-27ae60?style=for-the-badge&logo=github&logoColor=white" alt="PRs Welcome"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/pulse"><img src="https://img.shields.io/github/commit-activity/m/Marcolino-Dev/MOrganizador?style=for-the-badge&color=2ea44f" alt="Commit Activity"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador"><img src="https://img.shields.io/github/repo-size/Marcolino-Dev/MOrganizador?style=for-the-badge&color=1f6feb" alt="Repo Size"></a>
+  <a href="https://github.com/Marcolino-Dev/MOrganizador/search?l=python"><img src="https://img.shields.io/github/languages/top/Marcolino-Dev/MOrganizador?style=for-the-badge&logo=python&logoColor=white&color=3776ab" alt="Top Language"></a>
 </p>
 
 <p align="center">
@@ -78,7 +77,7 @@
 
 ### Opção 1: Executável Pronto (Recomendado) 🚀
 
-1. Acesse a **[página de Releases](https://github.com/lairm/organizador/releases/latest)**
+1. Acesse a **[página de Releases](https://github.com/Marcolino-Dev/MOrganizador/releases/latest)**
 2. Baixe `organizer_gui.exe` (interface gráfica) ou `organizer.exe` (linha de comando)
 3. Execute diretamente - **não precisa instalar nada!**
 
@@ -88,8 +87,8 @@
 
 ```bash
 # Clone o repositório
-git clone https://github.com/lairm/organizador.git
-cd organizador
+git clone https://github.com/Marcolino-Dev/MOrganizador.git
+cd MOrganizador
 
 # Crie ambiente virtual (opcional)
 python -m venv venv
@@ -354,7 +353,7 @@ git clone https://github.com/SEU-USUARIO/organizador.git
 cd organizador
 
 # Adicione upstream
-git remote add upstream https://github.com/lairm/organizador.git
+git remote add upstream https://github.com/Marcolino-Dev/MOrganizador.git
 
 # Ambiente virtual
 python -m venv venv
@@ -508,11 +507,11 @@ Isso me motiva a continuar melhorando e ajuda outros a encontrarem o projeto!
 
 ## 📊 Status do Projeto
 
-![GitHub repo size](https://img.shields.io/github/repo-size/lairm/organizador?style=flat-square)
-![GitHub language count](https://img.shields.io/github/languages/count/lairm/organizador?style=flat-square)
-![GitHub top language](https://img.shields.io/github/languages/top/lairm/organizador?style=flat-square&logo=python)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/lairm/organizador?style=flat-square)
-![GitHub contributors](https://img.shields.io/github/contributors/lairm/organizador?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/Marcolino-Dev/MOrganizador?style=flat-square)
+![GitHub language count](https://img.shields.io/github/languages/count/Marcolino-Dev/MOrganizador?style=flat-square)
+![GitHub top language](https://img.shields.io/github/languages/top/Marcolino-Dev/MOrganizador?style=flat-square&logo=python)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Marcolino-Dev/MOrganizador?style=flat-square)
+![GitHub contributors](https://img.shields.io/github/contributors/Marcolino-Dev/MOrganizador?style=flat-square)
 
 ---
 
