@@ -17,13 +17,30 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/lairm/organizador/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/lairm/organizador/ci.yml?branch=master&style=for-the-badge&logo=github-actions&logoColor=white&label=CI" alt="CI Status"></a>
+  <a href="https://codecov.io/gh/lairm/organizador"><img src="https://img.shields.io/codecov/c/github/lairm/organizador?style=for-the-badge&logo=codecov&logoColor=white" alt="Codecov"></a>
+  <a href="https://github.com/lairm/organizador/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/lairm/organizador/ci.yml?branch=master&style=for-the-badge&logo=bandit&logoColor=white&label=Security" alt="Security Scan"></a>
+  <a href="https://github.com/lairm/organizador/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/lairm/organizador/ci.yml?branch=master&style=for-the-badge&logo=black&logoColor=white&label=Code%20Style" alt="Code Style"></a>
+  <a href="https://github.com/lairm/organizador/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/lairm/organizador/ci.yml?branch=master&style=for-the-badge&logo=mypy&logoColor=white&label=Types" alt="Type Check"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/lairm/organizador/releases/latest"><img src="https://img.shields.io/github/downloads/lairm/organizador/total?style=for-the-badge&logo=github&logoColor=white&label=Total%20Downloads" alt="Total Downloads"></a>
+  <a href="https://github.com/lairm/organizador/commits/master"><img src="https://img.shields.io/github/last-commit/lairm/organizador?style=for-the-badge&logo=git&logoColor=white" alt="Last Commit"></a>
+  <a href="https://github.com/lairm/organizador/pulls"><img src="https://img.shields.io/github/issues-pr/lairm/organizador?style=for-the-badge&logo=github&logoColor=white" alt="Open PRs"></a>
+  <a href="https://github.com/lairm/organizador/blob/main/SECURITY.md"><img src="https://img.shields.io/badge/Security-Policy-2c3e50?style=for-the-badge&logo=shield&logoColor=white" alt="Security Policy"></a>
+  <a href="https://github.com/lairm/organizador/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-Welcome-27ae60?style=for-the-badge&logo=github&logoColor=white" alt="PRs Welcome"></a>
+</p>
+
+<p align="center">
   <a href="#-funcionalidades">Funcionalidades</a> •
   <a href="#-download-e-instalação">Download</a> •
   <a href="#-uso-rápido">Uso Rápido</a> •
   <a href="#-interface-gráfica-gui">GUI</a> •
   <a href="#-linha-de-comando-cli">CLI</a> •
   <a href="#-construindo-do-código-fonte">Build</a> •
-  <a href="#-contribuindo">Contribuindo</a>
+  <a href="#-contribuindo">Contribuindo</a> •
+  <a href="#-segurança">Segurança</a>
 </p>
 
 ---
@@ -49,10 +66,10 @@
 
 | Categoria | Extensões | Cor na GUI |
 |-----------|-----------|------------|
-| **📄 Documentos** | `.pdf`, `.docx`, `.doc`, `.txt`, `.xlsx`, `.pptx`, `.csv` | 🔵 Azul claro |
-| **🖼️ Imagens** | `.jpg`, `.jpeg`, `.png`, `.gif`, `.svg`, `.webp` | 🟠 Laranja claro |
-| **⚙️ Instaladores/Executáveis** | `.exe`, `.msi`, `.dmg`, `.pkg`, `.deb`, `.rpm` | 🔴 Vermelho claro |
-| **🗜️ Compactados** | `.zip`, `.rar`, `.tar`, `.gz`, `.7z` | 🟢 Verde claro |
+| **📄 Documentos** | `.pdf`, `.docx`, `.doc`, `.txt`, `.xlsx`, `.pptx`, `.csv`, `.ods`, `.odt`, `.odp`, `.rtf`, `.md`, `.tex` | 🔵 Azul claro |
+| **🖼️ Imagens** | `.jpg`, `.jpeg`, `.png`, `.gif`, `.svg`, `.webp`, `.bmp`, `.tiff`, `.tif`, `.ico`, `.heic`, `.heif`, `.avif` | 🟠 Laranja claro |
+| **⚙️ Instaladores/Executáveis** | `.exe`, `.msi`, `.dmg`, `.pkg`, `.deb`, `.rpm`, `.appimage`, `.snap`, `.flatpak`, `.apk`, `.ipa` | 🔴 Vermelho claro |
+| **🗜️ Compactados** | `.zip`, `.rar`, `.tar`, `.gz`, `.7z`, `.bz2`, `.xz`, `.zst`, `.tgz`, `.tbz2`, `.txz` | 🟢 Verde claro |
 | **📁 Outros** | Qualquer extensão não listada | ⚪ Cinza claro |
 
 ---
@@ -87,11 +104,19 @@ python organizer_gui.py --gui    # Interface gráfica
 python organizer.py -r           # CLI com renomeação
 ```
 
+### Opção 3: Via pip (em breve)
+
+```bash
+pip install organizador-arquivos
+organizer --help
+```
+
 ---
 
 ## ⚡ Uso Rápido
 
 ### Interface Gráfica (GUI)
+
 ```bash
 # Duplo clique no organizer_gui.exe
 # OU via terminal:
@@ -122,6 +147,12 @@ organizer.exe --dry-run
 
 # Simula com renomeação
 organizer.exe "C:\Pasta" --dry-run -r
+
+# Lista categorias e extensões
+organizer.exe --list-categories
+
+# Desfaz última organização
+organizer.exe --undo
 
 # Ajuda completa
 organizer.exe --help
@@ -159,6 +190,7 @@ RELATÓRIO FINAL - C:\Users\Você\Downloads
 ## 🖥️ Interface Gráfica (GUI) - Detalhes
 
 ### Tela Principal
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ 📁 Organizador Automático de Arquivos v1.0                  │
@@ -185,11 +217,14 @@ RELATÓRIO FINAL - C:\Users\Você\Downloads
 ```
 
 ### Recursos Visuais
+
 - **Cores por categoria** na tabela de prévia
 - **Barra de progresso** animada durante operação
 - **Status em tempo real** mostrando arquivo atual
 - **Botão "Desfazer"** aparece apenas após organização bem-sucedida
 - **Histórico persistente** - fecha o programa e ainda pode desfazer depois
+- **Tooltips** informativos nos controles
+- **Atalhos de teclado**: F5 (atualizar), Ctrl+Enter (iniciar), Ctrl+Z (desfazer), Esc (cancelar)
 
 ---
 
@@ -204,14 +239,19 @@ Argumentos:
 Opções:
   -r, --renomear     Adiciona prefixo AAAA-MM-DD_ (data de criação)
   --dry-run          Simula sem mover arquivos
+  --list-categories  Lista todas as categorias e extensões
+  --undo             Desfaz a última organização
+  --clear-history    Remove o histórico de desfazer salvo
   --gui              Abre interface gráfica
   -v, --version      Mostra versão
   -h, --help         Mostra esta ajuda
+  --verbose          Saída verbosa com mais detalhes
 ```
 
 **Códigos de saída:**
 - `0` = Sucesso
 - `1` = Erro (pasta não encontrada, permissão, etc.)
+- `130` = Cancelado pelo usuário (Ctrl+C)
 
 ---
 
@@ -239,6 +279,14 @@ pyinstaller --onefile --windowed --clean --name organizer_gui organizer_gui.py
 pyinstaller --onefile --windowed --clean --upx-dir=C:\upx --name organizer_gui organizer_gui.py
 ```
 
+### Build via CI/CD (Automático)
+```bash
+# Crie uma tag e faça push
+git tag v1.0.1
+git push origin v1.0.1
+# GitHub Actions faz build e cria Release automaticamente
+```
+
 ---
 
 ## 📂 Estrutura do Projeto
@@ -246,21 +294,41 @@ pyinstaller --onefile --windowed --clean --upx-dir=C:\upx --name organizer_gui o
 ```
 organizador/
 ├── .github/
-│   └── workflows/
-│       └── build.yml           # CI/CD GitHub Actions
+│   ├── workflows/
+│   │   ├── ci.yml              # CI Pipeline (lint, test, security, build)
+│   │   └── build.yml           # Build & Release (tags)
+│   ├── ISSUE_TEMPLATE/         # Templates de bug/feature
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   ├── dependabot.yml          # Atualizações automáticas de dependências
+│   └── CODEOWNERS              # Responsáveis por revisão
 ├── assets/
 │   └── logo.png                # Logo do projeto
+├── tests/                      # Testes unitários (pytest)
+│   ├── conftest.py             # Fixtures compartilhadas
+│   ├── test_categorias.py      # Testes de categorização
+│   ├── test_core.py            # Testes do core
+│   ├── test_cli.py             # Testes da CLI
+│   └── test_gui.py             # Testes da GUI
+├── organizador/                # Pacote principal
+│   ├── __init__.py             # Exports públicos + versão
+│   ├── core.py                 # Lógica de negócio (core)
+│   ├── cli.py                  # CLI (argparse, colorama)
+│   └── gui.py                  # GUI (Tkinter)
 ├── dist/                       # Executáveis gerados (ignorados no git)
 ├── build/                      # Build temporário PyInstaller (ignorado)
-├── organizer.py                # CLI principal
-├── organizer_gui.py            # GUI + CLI unificado
-├── requirements.txt            # Dependências (colorama)
-├── requirements-dev.txt        # Dev dependencies
+├── organizer.py                # Entry point CLI
+├── organizer_gui.py            # Entry point GUI
+├── requirements.txt            # Dependências runtime (colorama)
+├── requirements-dev.txt        # Dependências de desenvolvimento
+├── pyproject.toml              # Configuração projeto (build, tools)
+├── .pre-commit-config.yaml     # Hooks pre-commit
+├── .commitlintrc.json          # Validação Conventional Commits
 ├── README.md                   # Este arquivo
 ├── LICENSE                     # MIT License
-├── .gitignore                  # Git ignore rules
 ├── CHANGELOG.md                # Histórico de versões
-└── CONTRIBUTING.md             # Guia de contribuição
+├── CONTRIBUTING.md             # Guia de contribuição
+├── SECURITY.md                 # Política de segurança
+└── .gitignore                  # Git ignore rules
 ```
 
 ---
@@ -278,24 +346,91 @@ Contribuições são bem-vindas! Este é meu primeiro projeto no GitHub, então 
 5. Push: `git push origin feature/nova-funcionalidade`
 6. Abra um **Pull Request**
 
+### Setup de Desenvolvimento
+
+```bash
+# Clone seu fork
+git clone https://github.com/SEU-USUARIO/organizador.git
+cd organizador
+
+# Adicione upstream
+git remote add upstream https://github.com/lairm/organizador.git
+
+# Ambiente virtual
+python -m venv venv
+venv\Scripts\activate
+
+# Dependências de dev
+pip install -r requirements-dev.txt
+# ou
+pip install -r requirements.txt
+pip install pytest black flake8 mypy isort pre-commit bandit safety
+
+# Instale hooks pre-commit
+pre-commit install
+```
+
+### Executar Verificações Locais
+
+```bash
+# Formatação
+black --check organizer.py organizer_gui.py organizador/ tests/
+isort --check organizer.py organizer_gui.py organizador/ tests/
+
+# Linting
+flake8 organizer.py organizer_gui.py organizador/ tests/
+
+# Tipagem
+mypy organizer.py organizer_gui.py organizador/ --ignore-missing-imports
+
+# Segurança
+bandit -r organizer.py organizer_gui.py organizador/
+safety check
+
+# Testes
+pytest tests/ -v --cov=organizador --cov=organizer --cov=organizer_gui
+```
+
 ### Ideias para contribuições
+
 - 🌍 Internacionalização (i18n) - Português/Inglês/Espanhol
 - 🎨 Temas visuais (Dark/Light mode)
 - ⚙️ Configuração de categorias personalizadas via JSON
-- 📅 Agendamento automático (Windows Task Scheduler integration)
-- 🐧 Suporte nativo Linux/macOS (AppImage, .dmg)
-- 🧪 Testes unitários (pytest)
-- 📦 Empacotamento para Chocolatey, Scoop, Winget
+- 📅 Integração com Agendador de Tarefas do Windows
+- 🐧 Builds Linux (AppImage) e macOS (.dmg)
+- 🧪 Testes unitários com pytest (cobertura > 80%)
+- 📦 Publicação no Chocolatey, Scoop, Winget
+- 🔍 Busca recursiva em subpastas (opcional)
+- 📊 Logs detalhados em arquivo
+- 🔔 Notificações toast do Windows
 
 ### Padrão de Commits
+
 Usamos [Conventional Commits](https://www.conventionalcommits.org/):
-- `feat:` nova funcionalidade
-- `fix:` correção de bug
-- `docs:` documentação
-- `style:` formatação
-- `refactor:` refatoração
-- `test:` testes
-- `chore:` manutenção
+
+| Tipo | Descrição |
+|------|-----------|
+| `feat:` | Nova funcionalidade |
+| `fix:` | Correção de bug |
+| `docs:` | Documentação |
+| `style:` | Formatação (espaços, vírgulas, etc) |
+| `refactor:` | Refatoração sem mudança de comportamento |
+| `test:` | Testes |
+| `chore:` | Manutenção (build, deps, etc) |
+| `perf:` | Performance |
+| `ci:` | CI/CD |
+| `build:` | Build system |
+| `revert:` | Reverte commit anterior |
+
+**Exemplos:**
+```
+feat(gui): adiciona tema escuro na interface
+fix(cli): corrige crash quando pasta não existe
+docs: atualiza README com exemplos de uso
+refactor(core): extrai lógica de categorização para módulo separado
+test: adiciona testes para gerar_nome_unico
+chore: atualiza dependências no requirements.txt
+```
 
 ---
 
@@ -316,6 +451,27 @@ Veja [CHANGELOG.md](CHANGELOG.md) para histórico completo.
 
 ---
 
+## 🛡️ Segurança
+
+Leia nossa [Política de Segurança](SECURITY.md) para detalhes sobre:
+
+- **Versões suportadas** e ciclo de vida
+- **Como reportar vulnerabilidades** (privadamente, via Security Advisories)
+- **Medidas implementadas**: Path traversal protection, input validation, symlink protection, safe history storage
+- **Boas práticas** para usuários
+
+### Resumo das Proteções
+
+| Ameaça | Proteção |
+|--------|----------|
+| Path Traversal | Validação `_caminho_seguro()` em todas operações |
+| Nomes perigosos | Sanitização `_sanitizar_nome()` + lista reservados Windows |
+| Symlink attacks | Verificação `is_symlink()` antes de processar |
+| Histórico exposto | Salvo em `LOCALAPPDATA`/`XDG_DATA_HOME`, não na pasta de trabalho |
+| Dependências vuln. | Dependabot semanal + Safety no CI |
+
+---
+
 ## 🐛 Problemas Conhecidos / FAQ
 
 | Problema | Solução |
@@ -325,6 +481,7 @@ Veja [CHANGELOG.md](CHANGELOG.md) para histórico completo.
 | "Permissão negada" | Feche programas usando os arquivos / Execute como Administrador |
 | Antivírus bloqueia | Adicione exceção para a pasta do executável |
 | Data errada no Windows | `st_ctime` = data de criação no Windows, metadata change no Linux |
+| Subpastas não organizadas | Comportamento padrão: apenas arquivos na raiz da pasta |
 
 ---
 
@@ -346,6 +503,16 @@ Este projeto está licenciado sob a **MIT License** - veja [LICENSE](LICENSE) pa
 Se este projeto te ajudou, considere dar uma **estrela no GitHub** ⭐
 
 Isso me motiva a continuar melhorando e ajuda outros a encontrarem o projeto!
+
+---
+
+## 📊 Status do Projeto
+
+![GitHub repo size](https://img.shields.io/github/repo-size/lairm/organizador?style=flat-square)
+![GitHub language count](https://img.shields.io/github/languages/count/lairm/organizador?style=flat-square)
+![GitHub top language](https://img.shields.io/github/languages/top/lairm/organizador?style=flat-square&logo=python)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/lairm/organizador?style=flat-square)
+![GitHub contributors](https://img.shields.io/github/contributors/lairm/organizador?style=flat-square)
 
 ---
 

@@ -1,0 +1,34 @@
+# CODEOWNERS
+# These users/teams will be automatically requested for review when PRs modify matching files
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owners - all files
+* @lairm
+
+# Core logic
+/organizador/ @lairm
+
+# CLI entry point
+/organizer.py @lairm
+
+# GUI entry point
+/organizer_gui.py @lairm
+
+# Tests
+/tests/ @lairm
+
+# Configuration
+/pyproject.toml @lairm
+/requirements.txt @lairm
+/requirements-dev.txt @lairm
+
+# CI/CD
+/.github/workflows/ @lairm
+/.github/dependabot.yml @lairm
+
+# Documentation
+/README.md @lairm
+/CHANGELOG.md @lairm
+/CONTRIBUTING.md @lairm
+/SECURITY.md @lairm
+/LICENSE @lairm

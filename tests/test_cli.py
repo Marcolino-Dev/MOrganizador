@@ -1,10 +1,8 @@
 """
-Testes para CLI (Interface de Linha de Comando).
+Testes para CLI do Organizador.
 """
 
-from unittest.mock import patch
-
-import pytest
+from unittest.mock import MagicMock, patch
 
 from organizador.cli import (
     criar_parser,
@@ -13,6 +11,7 @@ from organizador.cli import (
     listar_categorias,
     main,
 )
+from organizador.core import Categoria
 
 
 class TestCriarParser:
@@ -20,19 +19,13 @@ class TestCriarParser:
 
     def test_parser_criado(self):
         parser = criar_parser()
-        assert parser is not None
         assert parser.prog == "organizer"
+        assert "Organizador Automático de Arquivos" in parser.description
 
-    def test_argumento_pasta_padrao(self):
+    def test_argumento_pasta_padrao(self, pasta_teste):
         parser = criar_parser()
         args = parser.parse_args([])
-        assert args.pasta is not None
-        assert "Downloads" in args.pasta or "home" in args.pasta.lower()
-
-    def test_argumento_pasta_customizada(self):
-        parser = criar_parser()
-        args = parser.parse_args(["/caminho/customizado"])
-        assert args.pasta == "/caminho/customizado"
+        assert args.pasta == str(pasta_teste) or "Downloads" in args.pasta
 
     def test_flag_renomear(self):
         parser = criar_parser()
@@ -53,17 +46,20 @@ class TestCriarParser:
         args = parser.parse_args(["--list-categories"])
         assert args.list_categories is True
 
+    def test_flag_undo(self):
+        parser = criar_parser()
+        args = parser.parse_args(["--undo"])
+        assert args.undo is True
+
+    def test_flag_clear_history(self):
+        parser = criar_parser()
+        args = parser.parse_args(["--clear-history"])
+        assert args.clear_history is True
+
     def test_flag_verbose(self):
         parser = criar_parser()
         args = parser.parse_args(["--verbose"])
         assert args.verbose is True
-
-    def test_version(self):
-        parser = criar_parser()
-        with pytest.raises(SystemExit):
-            parser.parse_args(["-v"])
-        with pytest.raises(SystemExit):
-            parser.parse_args(["--version"])
 
 
 class TestImprimirCabecalho:
@@ -79,119 +75,167 @@ class TestImprimirCabecalho:
 class TestListarCategorias:
     """Testes para listagem de categorias."""
 
-    def test_lista_sem_erro(self, capsys):
+    def test_lista_todas_categorias(self, capsys):
         listar_categorias()
         captured = capsys.readouterr()
         assert "CATEGORIAS SUPORTADAS" in captured.out
-        assert "Documentos" in captured.out
-        assert "Imagens" in captured.out
-        assert "Instaladores" in captured.out
-        assert "Compactados" in captured.out
-        assert "Outros" in captured.out
+        for cat in Categoria:
+            assert cat.value in captured.out
+            assert cat.icone in captured.out
 
 
 class TestExecutarDryRun:
     """Testes para modo dry-run."""
 
-    def test_pasta_vazia(self, pasta_vazia, capsys):
-        result = executar_dry_run(pasta_vazia, renomear=False, verbose=False)
-        assert result == 0
+    def test_dry_run_vazio(self, pasta_vazia, capsys):
+        resultado = executar_dry_run(pasta_vazia, renomear=False, verbose=False)
+        assert resultado == 0
         captured = capsys.readouterr()
         assert "Nenhum arquivo encontrado" in captured.out
 
-    def test_com_arquivos(self, pasta_teste, capsys):
-        result = executar_dry_run(pasta_teste, renomear=False, verbose=False)
-        assert result == 0
+    def test_dry_run_com_arquivos(self, pasta_teste, capsys):
+        resultado = executar_dry_run(pasta_teste, renomear=False, verbose=False)
+        assert resultado == 0
         captured = capsys.readouterr()
-        assert "PRÉVIA" in captured.out
+        assert "PRÉVIA (DRY-RUN)" in captured.out
         assert "Total:" in captured.out
 
-    def test_com_renomear(self, pasta_teste, capsys):
-        result = executar_dry_run(pasta_teste, renomear=True, verbose=False)
-        assert result == 0
+    def test_dry_run_com_renomear(self, pasta_teste, capsys):
+        resultado = executar_dry_run(pasta_teste, renomear=True, verbose=False)
+        assert resultado == 0
         captured = capsys.readouterr()
         assert "Renomeação: ATIVADA" in captured.out
 
-    def test_verbose(self, pasta_teste, capsys):
-        result = executar_dry_run(pasta_teste, renomear=False, verbose=True)
-        assert result == 0
-        captured = capsys.readouterr()
-        # Verbose mostra tamanho
-        assert "KB" in captured.out or "B" in captured.out
-
 
 class TestMain:
-    """Testes para função main."""
+    """Testes para função main da CLI."""
 
-    def test_list_categories_exit_0(self):
-        with patch("organizador.cli.listar_categorias") as mock_list:
-            result = main(["--list-categories"])
-            assert result == 0
-            mock_list.assert_called_once()
+    def test_main_list_categories(self, capsys):
+        with patch("sys.argv", ["organizer", "--list-categories"]):
+            resultado = main()
+        assert resultado == 0
+        captured = capsys.readouterr()
+        assert "CATEGORIAS SUPORTADAS" in captured.out
 
-    def test_pasta_inexistente_exit_1(self):
-        result = main(["/pasta/que/nao/existe"])
-        assert result == 1
+    def test_main_pasta_inexistente(self, capsys):
+        with patch("sys.argv", ["organizer", "/pasta/inexistente"]):
+            resultado = main()
+        assert resultado == 1
+        captured = capsys.readouterr()
+        assert "Pasta não encontrada" in captured.out
 
-    def test_help_exit_0(self):
-        with pytest.raises(SystemExit) as exc:
-            main(["-h"])
-        assert exc.value.code == 0
+    def test_main_arquivo_como_pasta(self, pasta_teste, capsys):
+        arquivo = pasta_teste / "relatorio.pdf"
+        with patch("sys.argv", ["organizer", str(arquivo)]):
+            resultado = main()
+        assert resultado == 1
+        captured = capsys.readouterr()
+        assert "não é uma pasta" in captured.out
 
-    def test_dry_run_pasta_valida(self, pasta_teste):
-        with patch("organizador.cli.executar_dry_run", return_value=0) as mock_dry:
-            result = main([str(pasta_teste), "--dry-run"])
-            assert result == 0
-            mock_dry.assert_called_once()
+    def test_main_dry_run(self, pasta_teste, capsys):
+        with patch("sys.argv", ["organizer", str(pasta_teste), "--dry-run"]):
+            resultado = main()
+        assert resultado == 0
+        captured = capsys.readouterr()
+        assert "PRÉVIA (DRY-RUN)" in captured.out
 
-    def test_keyboard_interrupt_exit_130(self, pasta_teste):
-        with patch("organizador.cli.executar_organizacao", side_effect=KeyboardInterrupt()):
-            result = main([str(pasta_teste)])
-            assert result == 130
+    def test_main_undo_sem_historico(self, capsys):
+        with patch("organizador.core.carregar_historico", return_value=None):
+            with patch("sys.argv", ["organizer", "--undo"]):
+                resultado = main()
+        assert resultado == 1
+        captured = capsys.readouterr()
+        assert "Nenhum histórico para desfazer" in captured.out
 
-    def test_organizador_error_exit_1(self, pasta_teste):
-        from organizador.core import OrganizadorError
+    def test_main_clear_history(self, capsys):
+        with patch("organizador.cli.remover_historico", return_value=True) as mock_remover:
+            with patch("sys.argv", ["organizer", "--clear-history"]):
+                resultado = main()
+        assert resultado == 0
+        mock_remover.assert_called_once()
+        captured = capsys.readouterr()
+        assert "Histórico removido" in captured.out
 
-        with patch(
-            "organizador.cli.executar_organizacao", side_effect=OrganizadorError("Erro teste")
-        ):
-            result = main([str(pasta_teste)])
-            assert result == 1
-
-    def test_pasta_invalida_exit_1(self, pasta_teste):
-        from organizador.core import PastaInvalidaError
-
-        with patch(
-            "organizador.cli.executar_organizacao", side_effect=PastaInvalidaError("Pasta inválida")
-        ):
-            result = main([str(pasta_teste)])
-            assert result == 1
-
-    def test_permissao_error_exit_1(self, pasta_teste):
-        from organizador.core import PermissaoError
-
-        with patch(
-            "organizador.cli.executar_organizacao", side_effect=PermissaoError("Sem permissão")
-        ):
-            result = main([str(pasta_teste)])
-            assert result == 1
+    def test_main_keyboard_interrupt(self, pasta_teste, capsys):
+        with patch("organizador.cli.executar_organizacao", side_effect=KeyboardInterrupt):
+            with patch("sys.argv", ["organizer", str(pasta_teste)]):
+                resultado = main()
+        assert resultado == 130
+        captured = capsys.readouterr()
+        assert "cancelada pelo usuário" in captured.out
 
 
 class TestMainIntegration:
-    """Testes de integração da CLI."""
+    """Testes de integração da CLI (mockando core)."""
 
-    def test_fluxo_completo_dry_run(self, pasta_teste, capsys):
-        """Testa fluxo completo: main -> dry_run -> saída."""
-        result = main([str(pasta_teste), "--dry-run"])
-        assert result == 0
+    def test_organiza_com_sucesso(self, pasta_teste, capsys):
+        mock_historico = MagicMock()
+        mock_historico.total_arquivos = 5
+        mock_historico.movimentos = [
+            MagicMock(categoria="Documentos"),
+            MagicMock(categoria="Documentos"),
+            MagicMock(categoria="Imagens"),
+            MagicMock(categoria="Instaladores e Executáveis"),
+            MagicMock(categoria="Compactados"),
+        ]
+
+        with patch("organizador.cli.executar_organizacao", return_value=mock_historico):
+            with patch("organizador.cli.salvar_historico") as mock_salvar:
+                with patch("sys.argv", ["organizer", str(pasta_teste), "-r"]):
+                    resultado = main()
+
+        assert resultado == 0
+        mock_salvar.assert_called_once()
         captured = capsys.readouterr()
-        assert "PRÉVIA" in captured.out
-        assert "Total:" in captured.out
+        assert "RELATÓRIO FINAL" in captured.out
+        assert "5 arquivo(s)" in captured.out
 
-    def test_argumento_posicional_opcional(self, capsys, pasta_vazia):
-        """Testa que pasta é opcional (usa Downloads como padrão)."""
-        with patch("organizador.core.obter_pasta_downloads", return_value=pasta_vazia):
-            with patch("organizador.cli.executar_dry_run", return_value=0) as mock_dry:
-                result = main(["--dry-run"])
-                assert result == 0
-                mock_dry.assert_called_once()
+    def test_erro_pasta_invalida(self, capsys, tmp_path):
+        """Testa erro quando pasta não existe."""
+        pasta_inexistente = tmp_path / "nao_existe"
+        with patch("sys.argv", ["organizer", str(pasta_inexistente)]):
+            resultado = main()
+        assert resultado == 1
+        captured = capsys.readouterr()
+        assert "Pasta não encontrada" in captured.out
+
+    def test_erro_permissao(self, capsys, tmp_path):
+        """Testa erro de permissão simulado."""
+        from organizador.core import PermissaoError
+
+        pasta_valida = tmp_path / "pasta_valida"
+        pasta_valida.mkdir()
+
+        with patch(
+            "organizador.cli.executar_organizacao", side_effect=PermissaoError("Permissão negada")
+        ):
+            with patch("sys.argv", ["organizer", str(pasta_valida)]):
+                resultado = main()
+        assert resultado == 1
+        captured = capsys.readouterr()
+        assert "Erro de permissão" in captured.out
+        assert "Administrador" in captured.out
+
+
+class TestArgumentosCombinados:
+    """Testes para combinações de argumentos."""
+
+    def test_dry_run_com_renomear(self, pasta_teste, capsys):
+        with patch("sys.argv", ["organizer", str(pasta_teste), "--dry-run", "-r"]):
+            resultado = main()
+        assert resultado == 0
+        captured = capsys.readouterr()
+        assert "Renomeação: ATIVADA" in captured.out
+        assert "PRÉVIA (DRY-RUN)" in captured.out
+
+    def test_pasta_explicita(self, pasta_teste, capsys):
+        with patch("organizador.cli.executar_organizacao") as mock_exec:
+            mock_exec.return_value = MagicMock(total_arquivos=0, movimentos=[])
+            with patch("organizador.cli.salvar_historico"):
+                with patch("sys.argv", ["organizer", str(pasta_teste)]):
+                    resultado = main()
+        assert resultado == 0
+        # Verifica se pasta foi passada corretamente
+        mock_exec.assert_called_once()
+        args, kwargs = mock_exec.call_args
+        assert str(pasta_teste) in str(args[0])

@@ -1,0 +1,19 @@
+# GitHub Sponsors / Funding Configuration
+# Displayed on the repository's "Sponsor" button
+
+# GitHub Sponsors (usuário ou organização)
+github: lairm
+
+# Outras plataformas (descomente e configure se usar)
+# patreon: seu-usuario
+# open_collective: seu-projeto
+# ko_fi: seu-usuario
+# tidelift: npm/seu-pacote
+# community_bridge: seu-projeto
+# liberapay: seu-usuario
+# issuehunt: seu-usuario
+# otechie: seu-usuario
+# custom: ["https://seu-link-personalizado.com"]
+
+# Mensagem personalizada (opcional)
+# custom: ["https://github.com/sponsors/lairm", "☕ Me convide um café!"]

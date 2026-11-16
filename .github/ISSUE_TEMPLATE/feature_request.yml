@@ -1,0 +1,109 @@
+name: 💡 Feature Request
+description: Sugira uma nova funcionalidade ou melhoria
+title: "[FEATURE]: "
+labels: ["enhancement", "triage"]
+assignees:
+  - lairm
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por sugerir uma melhoria! Descreva sua ideia com o máximo de detalhes.
+
+  - type: dropdown
+    id: interface
+    attributes:
+      label: Interface(s) Afetada(s)
+      description: Onde essa feature deve ser implementada?
+      options:
+        - CLI (linha de comando)
+        - GUI (interface gráfica)
+        - Ambas
+        - Core / Lógica interna
+        - Documentação
+        - CI/CD / Build
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Prioridade Sugerida
+      options:
+        - 🔴 Crítica (bloqueia uso)
+        - 🟠 Alta (muito útil)
+        - 🟡 Média (legal ter)
+        - 🟢 Baixa (nice to have)
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema que Resolve
+      description: Qual problema esta feature resolve? Qual dor do usuário?
+      placeholder: |
+        Atualmente não é possível organizar subpastas recursivamente.
+        Usuários com pastas Downloads bagunçadas há anos têm arquivos em subpastas
+        que não são tocados pelo organizador.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solução Proposta
+      description: Como você imagina a implementação?
+      placeholder: |
+        Adicionar flag `--recursive` / `-R` que faz scan recursivo.
+        Na GUI, adicionar checkbox "Incluir subpastas".
+        Manter comportamento atual como padrão (não-recursivo).
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas Consideradas
+      description: Outras formas de resolver o mesmo problema
+      placeholder: |
+        - Script separado para achatar pastas antes
+        - Integração com ferramentas externas
+
+  - type: textarea
+    id: use_cases
+    attributes:
+      label: Casos de Uso
+      description: Cenários reais onde isso seria útil
+      placeholder: |
+        1. Usuário baixa muitos zips que extraem para subpastas
+        2. Organizar pasta de projetos com estrutura de diretórios
+        3. Limpeza profunda de Downloads antigo
+
+  - type: textarea
+    id: mockup
+    attributes:
+      label: Mockup / Exemplo Visual (opcional)
+      description: Descreva ou desenhe como ficaria na interface
+      placeholder: |
+        GUI: [☑] Incluir subpastas (recursivo)
+        CLI: organizer --recursive -r
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Contexto Adicional
+      description: Links, referências, issues relacionadas, etc.
+      placeholder: |
+        Relacionado: #123
+        Referência: Como o "File Juggler" faz...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: Verifiquei se não existe issue/PR similar
+          required: true
+        - label: Esta feature é compatível com a filosofia do projeto (simples, focado)
+          required: true
+        - label: Estou disposto a ajudar na implementação/testes
+          required: false

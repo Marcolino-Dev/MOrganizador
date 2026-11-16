@@ -1,0 +1,123 @@
+name: 🐛 Bug Report
+description: Reporte um bug para nos ajudar a melhorar
+title: "[BUG]: "
+labels: ["bug", "triage"]
+assignees:
+  - lairm
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportar um bug! Por favor, preencha as informações abaixo para nos ajudar a reproduzir e corrigir o problema.
+
+  - type: input
+    id: version
+    attributes:
+      label: Versão do Organizador
+      description: Qual versão você está usando? (ex: 1.0.0)
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: interface
+    attributes:
+      label: Interface utilizada
+      description: O bug ocorreu na CLI, GUI ou ambas?
+      options:
+        - CLI (linha de comando)
+        - GUI (interface gráfica)
+        - Ambas
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Sistema Operacional
+      description: Em qual SO ocorreu o bug?
+      options:
+        - Windows 10
+        - Windows 11
+        - Linux (Ubuntu/Debian/Fedora/Arch/outro)
+        - macOS
+        - Outro
+    validations:
+      required: true
+
+  - type: input
+    id: python_version
+    attributes:
+      label: Versão do Python (se rodando via source)
+      description: Resultado de `python --version`
+      placeholder: "3.11.5"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrição do Bug
+      description: Descreva claramente o que aconteceu
+      placeholder: |
+        Ao organizar a pasta Downloads com a flag -r, o programa trava...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para Reproduzir
+      description: Passos detalhados para reproduzir o bug
+      placeholder: |
+        1. Abra o terminal
+        2. Execute: organizer "C:\Users\Nome\Downloads" -r
+        3. Observe o erro...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento Esperado
+      description: O que você esperava que acontecesse?
+      placeholder: Os arquivos deveriam ser organizados e renomeados com a data...
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportamento Atual
+      description: O que aconteceu na prática?
+      placeholder: O programa mostra erro "PermissionError" e não move nenhum arquivo...
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Erros / Screenshots
+      description: Cole aqui qualquer erro, traceback ou screenshot relevante
+      render: shell
+      placeholder: |
+        Traceback (most recent call last):
+          File "organizer.py", line 42, in main
+            ...
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Informações Adicionais
+      description: Qualquer contexto extra, configuração específica, etc.
+      placeholder: |
+        - Pasta com 5000+ arquivos
+        - Antivírus: Windows Defender
+        - Executando como Admin: Não
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Confirme os itens abaixo
+      options:
+        - label: Li o README e não encontrei solução
+          required: true
+        - label: Verifiquei se o bug já não foi reportado nas Issues
+          required: true
+        - label: Testei na versão mais recente
+          required: true

@@ -1,0 +1,57 @@
+{
+  "extends": ["@commitlint/config-conventional"],
+  "rules": {
+    "type-enum": [
+      2,
+      "always",
+      [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "test",
+        "chore",
+        "perf",
+        "ci",
+        "build",
+        "revert"
+      ]
+    ],
+    "type-case": [2, "always", "lower-case"],
+    "type-empty": [2, "never"],
+    "scope-case": [2, "always", "lower-case"],
+    "subject-case": [2, "always", "sentence-case"],
+    "subject-empty": [2, "never"],
+    "subject-full-stop": [2, "never", "."],
+    "header-max-length": [2, "always", 72],
+    "body-max-line-length": [2, "always", 100],
+    "footer-max-line-length": [2, "always", 100]
+  },
+  "prompt": {
+    "messages": {
+      "type": "Selecione o tipo de mudança:",
+      "scope": "Escopo (opcional):",
+      "subject": "Descrição curta (imperativo, minúsculo):",
+      "body": "Descrição longa (opcional):",
+      "isBreaking": "Introduz breaking change?",
+      "breakingBody": "Descreva o breaking change:",
+      "breaking": "Lista de breaking changes (opcional):",
+      "isIssueAffected": "Afeta alguma issue?",
+      "issuesBody": "Issues afetadas (ex: fixes #123):"
+    },
+    "types": {
+      "feat": { "description": "✨ Nova funcionalidade", "title": "Features" },
+      "fix": { "description": "🐛 Correção de bug", "title": "Bug Fixes" },
+      "docs": { "description": "📝 Documentação", "title": "Documentation" },
+      "style": { "description": "🎨 Formatação (espaços, vírgulas, etc)", "title": "Styles" },
+      "refactor": { "description": "♻️ Refatoração (sem mudança de comportamento)", "title": "Refactoring" },
+      "test": { "description": "🧪 Testes", "title": "Tests" },
+      "chore": { "description": "🔧 Manutenção (build, deps, etc)", "title": "Chores" },
+      "perf": { "description": "⚡ Performance", "title": "Performance" },
+      "ci": { "description": "🔧 CI/CD", "title": "CI/CD" },
+      "build": { "description": "📦 Build system", "title": "Build" },
+      "revert": { "description": "⏪ Reverte commit anterior", "title": "Reverts" }
+    }
+  }
+}

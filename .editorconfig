@@ -1,0 +1,31 @@
+# EditorConfig - Configuração consistente entre editores/IDEs
+# https://editorconfig.org
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{py,pyi}]
+indent_size = 4
+
+[*.{toml,yaml,yml,json,md}]
+indent_size = 2
+
+[*.{bat,cmd,ps1}]
+end_of_line = crlf
+
+[Makefile]
+indent_style = tab
+
+[*.{html,css,js,ts,jsx,tsx}]
+indent_size = 2
+
+[*.{sh,bash,zsh}]
+indent_size = 4
+end_of_line = lf

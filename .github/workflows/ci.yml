@@ -1,0 +1,332 @@
+# Continuous Integration Workflow
+# Runs on every push and PR to ensure code quality
+
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+env:
+  PYTHON_VERSIONS: '["3.10", "3.11", "3.12"]'
+
+jobs:
+  # ==========================================
+  # LINT & FORMAT CHECK
+  # ==========================================
+  lint:
+    name: Lint & Format (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+      fail-fast: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install black flake8 isort
+
+      - name: Check code formatting (Black)
+        run: black --check --diff organizer.py organizer_gui.py organizador/ tests/ --line-length=100
+
+      - name: Check import sorting (isort)
+        run: isort --check --diff organizer.py organizer_gui.py organizador/ tests/
+
+      - name: Lint (flake8)
+        run: flake8 organizer.py organizer_gui.py organizador/ tests/ --max-line-length=100 --ignore=E501,W503
+
+  # ==========================================
+  # TYPE CHECKING
+  # ==========================================
+  type-check:
+    name: Type Checking (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+      fail-fast: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install mypy types-requests
+
+      - name: Type check (mypy)
+        run: |
+          mypy organizer.py organizer_gui.py organizador/ --ignore-missing-imports --strict-optional
+
+  # ==========================================
+  # UNIT TESTS
+  # ==========================================
+  test:
+    name: Unit Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+      fail-fast: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-mock
+
+      - name: Run tests with coverage
+        run: |
+          python -m pytest tests/ -v --tb=short \
+            --cov=organizador \
+            --cov=organizer \
+            --cov=organizer_gui \
+            --cov-report=xml \
+            --cov-report=term-missing \
+            --cov-fail-under=80
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          flags: unittests
+          name: codecov-${{ matrix.python-version }}
+          fail_ci_if_error: false
+
+  # ==========================================
+  # SECURITY SCAN
+  # ==========================================
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install bandit safety
+
+      - name: Run Bandit (static security analysis)
+        run: |
+          bandit -r organizer.py organizer_gui.py organizador/ -f json -o bandit-report.json || true
+          bandit -r organizer.py organizer_gui.py organizador/ -ll
+
+      - name: Upload Bandit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-report
+          path: bandit-report.json
+          retention-days: 30
+
+      - name: Check dependencies for vulnerabilities (Safety)
+        run: |
+          safety check --json --output safety-report.json || true
+          cat safety-report.json | jq '.'
+
+      - name: Upload Safety report
+        uses: actions/upload-artifact@v4
+        with:
+          name: safety-report
+          path: safety-report.json
+          retention-days: 30
+
+  # ==========================================
+  # BUILD EXECUTABLES (Windows)
+  # ==========================================
+  build-windows:
+    name: Build Windows Executables
+    runs-on: windows-latest
+    needs: [lint, type-check, test, security]
+    if: github.event_name == 'push' && (startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build CLI executable
+        run: |
+          pyinstaller --onefile --clean --name organizer organizer.py
+
+      - name: Build GUI executable
+        run: |
+          pyinstaller --onefile --windowed --clean --name organizer_gui organizer_gui.py
+
+      - name: Verify executables
+        run: |
+          .\dist\organizer.exe --help
+          .\dist\organizer_gui.exe --help
+
+      - name: Get file sizes
+        run: |
+          $cli = (Get-Item dist\organizer.exe).length / 1MB
+          $gui = (Get-Item dist\organizer_gui.exe).length / 1MB
+          echo "CLI Size: $([math]::Round($cli, 1)) MB"
+          echo "GUI Size: $([math]::Round($gui, 1)) MB"
+          echo "CLI_SIZE=$([math]::Round($cli, 1))" >> $env:GITHUB_ENV
+          echo "GUI_SIZE=$([math]::Round($gui, 1))" >> $env:GITHUB_ENV
+
+      - name: Upload executables
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-executables
+          path: |
+            dist/organizer.exe
+            dist/organizer_gui.exe
+          retention-days: 30
+
+  # ==========================================
+  # BUILD WHEEL / SDIST
+  # ==========================================
+  build-package:
+    name: Build Package (Wheel & Sdist)
+    runs-on: ubuntu-latest
+    needs: [lint, type-check, test]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build package
+        run: python -m build --wheel --sdist
+
+      - name: Check package
+        run: twine check dist/*
+
+      - name: Upload package artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package
+          path: dist/*
+          retention-days: 30
+
+  # ==========================================
+  # RELEASE
+  # ==========================================
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build-windows, build-package]
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: Download Windows executables
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-executables
+          path: dist/
+
+      - name: Download Python package
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package
+          path: dist/
+
+      - name: List release files
+        run: ls -la dist/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/organizer.exe
+            dist/organizer_gui.exe
+            dist/*.whl
+            dist/*.tar.gz
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref, '-alpha') || contains(github.ref, '-beta') || contains(github.ref, '-rc') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ==========================================
+  # NOTIFY ON FAILURE
+  # ==========================================
+  notify-failure:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [lint, type-check, test, security, build-windows, build-package]
+    if: failure()
+    steps:
+      - name: Send failure notification
+        run: |
+          echo "::warning::CI Pipeline failed! Check the Actions tab for details."
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Run: ${{ github.run_id }}"
+          echo "Commit: ${{ github.sha }}"
+
+      # Uncomment and configure for Slack/Discord/Email notifications
+      # - name: Slack notification
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: failure
+      #     channel: '#ci-cd'
+      #     text: 'CI Pipeline failed for Organizador'
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

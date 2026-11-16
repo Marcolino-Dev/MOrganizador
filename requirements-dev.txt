@@ -1,0 +1,30 @@
+# Development Dependencies
+# Install with: pip install -r requirements-dev.txt
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+
+# Code Quality
+black>=24.4.0
+flake8>=7.1.0
+flake8-bugbear>=24.4.0
+flake8-comprehensions>=3.14.0
+mypy>=1.10.0
+isort>=5.13.0
+
+# Pre-commit hooks
+pre-commit>=3.7.0
+
+# Security
+bandit>=1.7.8
+safety>=3.0.0
+
+# Build
+pyinstaller>=6.8.0
+build>=1.2.0
+twine>=5.0.0
+
+# Type stubs
+types-requests>=2.31.0
