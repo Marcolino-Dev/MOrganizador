@@ -277,13 +277,13 @@ jobs:
       contents: write
     steps:
       - name: Download Windows executables
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: windows-executables
           path: dist/
 
       - name: Download Python package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: python-package
           path: dist/
