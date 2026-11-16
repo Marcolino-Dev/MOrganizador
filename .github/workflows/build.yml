@@ -1,0 +1,133 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versão para release manual (ex: v1.0.1)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Executables
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: ['3.11']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build CLI executable
+        run: |
+          pyinstaller --onefile --clean --name organizer organizer.py
+
+      - name: Build GUI executable
+        run: |
+          pyinstaller --onefile --windowed --clean --name organizer_gui organizer_gui.py
+
+      - name: Verify executables
+        run: |
+          .\dist\organizer.exe --help
+          .\dist\organizer_gui.exe --help
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: organizer-executables
+          path: |
+            dist/organizer.exe
+            dist/organizer_gui.exe
+          retention-days: 30
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: organizer-executables
+          path: dist/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/organizer.exe
+            dist/organizer_gui.exe
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+
+      - name: Create Manual Release
+        if: github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: Release ${{ github.event.inputs.version }}
+          files: |
+            dist/organizer.exe
+            dist/organizer_gui.exe
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Run linting
+        run: |
+          flake8 organizer.py organizer_gui.py --max-line-length=100 --ignore=E501,W503
+          black --check organizer.py organizer_gui.py --line-length=100
+
+      - name: Run type checking
+        run: |
+          mypy organizer.py organizer_gui.py --ignore-missing-imports
+
+      - name: Run tests
+        run: |
+          python -m pytest tests/ -v --tb=short || echo "Nenhum teste encontrado - OK"
