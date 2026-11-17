@@ -14,7 +14,7 @@ Este documento complementa o [CONTRIBUTING.md](../CONTRIBUTING.md) principal com
 ### Setup Rápido (Windows PowerShell)
 ```powershell
 # 1. Clone e entre na pasta
-git clone https://github.com/SEU-USUARIO/organizador.git
+git clone https://github.com/Marcolino-Dev/MOrganizador.git
 cd organizador
 
 # 2. Setup completo (venv + deps + hooks)

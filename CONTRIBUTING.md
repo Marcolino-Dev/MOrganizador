@@ -11,7 +11,7 @@ git clone https://github.com/SEU-USUARIO/organizador.git
 cd organizador
 
 # Adicione upstream para sincronizar
-git remote add upstream https://github.com/lairm/organizador.git
+git remote add upstream https://github.com/Marcolino-Dev/MOrganizador.git
 ```
 
 ### 2. Ambiente de Desenvolvimento

@@ -6,7 +6,7 @@ Suporta interface de linha de comando (CLI) e interface gráfica (GUI).
 """
 
 __version__ = "1.0.0"
-__author__ = "lairm"
+__author__ = "Marcolino-Dev"
 __license__ = "MIT"
 
 from .core import (

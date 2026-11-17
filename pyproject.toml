@@ -62,13 +62,13 @@ dev = [
 gui = []  # tkinter is stdlib
 
 [project.urls]
-Homepage = "https://github.com/lairm/organizador"
-Repository = "https://github.com/lairm/organizador"
-Issues = "https://github.com/lairm/organizador/issues"
-Changelog = "https://github.com/lairm/organizador/blob/main/CHANGELOG.md"
-Documentation = "https://github.com/lairm/organizador/blob/main/README.md"
-Discussions = "https://github.com/lairm/organizador/discussions"
-Security = "https://github.com/lairm/organizador/security/advisories/new"
+Homepage = "https://github.com/Marcolino-Dev/MOrganizador"
+Repository = "https://github.com/Marcolino-Dev/MOrganizador"
+Issues = "https://github.com/Marcolino-Dev/MOrganizador/issues"
+Changelog = "https://github.com/Marcolino-Dev/MOrganizador/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/Marcolino-Dev/MOrganizador/blob/main/README.md"
+Discussions = "https://github.com/Marcolino-Dev/MOrganizador/discussions"
+Security = "https://github.com/Marcolino-Dev/MOrganizador/security/advisories/new"
 
 [project.scripts]
 organizer = "organizer:main"

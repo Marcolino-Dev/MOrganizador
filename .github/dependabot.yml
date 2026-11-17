@@ -20,9 +20,9 @@ updates:
       include: "scope"
     open-pull-requests-limit: 10
     reviewers:
-      - "lairm"
+      - "Marcolino-Dev"
     assignees:
-      - "lairm"
+      - "Marcolino-Dev"
     # Group related updates
     groups:
       dev-dependencies:
@@ -61,7 +61,7 @@ updates:
       include: "scope"
     open-pull-requests-limit: 5
     reviewers:
-      - "lairm"
+      - "Marcolino-Dev"
 
   # Docker (se usar containers no futuro)
   # - package-ecosystem: "docker"
